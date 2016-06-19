@@ -1,21 +1,21 @@
 {
-  "manifest_version": 1,
+  "manifest_version": 2,
 
   "name": "rent house",
   "description": "help you rent hourse",
   "version": "0.0.1",
 
   "permissions": [
-    "khiav223577.github.io/"
+    "https://khiav223577.github.io/"
   ],
   "content_scripts": [
     {
-      "matches": ["khiav223577.github.io/*"],
-      "js": ["jquery-3.0.0.min"],
+      "matches": ["https://khiav223577.github.io/*"],
+      "js": ["jquery-3.0.0.min.js"],
       "run_at": "document_end"
     },
     {
-      "matches": ["khiav223577.github.io/*"],
+      "matches": ["https://khiav223577.github.io/*"],
       "js": ["read.js"],
       "run_at": "document_end"
     }
