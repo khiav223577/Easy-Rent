@@ -6,16 +6,23 @@
   "version": "0.0.1",
 
   "permissions": [
-    "https://khiav223577.github.io/"
+    "http://khiav223577.github.io/Easy-Rent/",
+    "https://khiav223577.github.io/Easy-Rent/"
   ],
   "content_scripts": [
     {
-      "matches": ["https://khiav223577.github.io/*"],
+      "matches": [
+        "http://khiav223577.github.io/Easy-Rent/*",
+        "https://khiav223577.github.io/Easy-Rent/*"
+      ],
       "js": ["jquery-3.0.0.min.js"],
       "run_at": "document_end"
     },
     {
-      "matches": ["https://khiav223577.github.io/*"],
+      "matches": [
+        "http://khiav223577.github.io/Easy-Rent/*",
+        "https://khiav223577.github.io/Easy-Rent/*"
+      ],
       "js": ["read.js"],
       "run_at": "document_end"
     }
