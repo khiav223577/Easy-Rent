@@ -10,7 +10,7 @@ $.get(searchPath, function(response){
     var $this = $(this);
     $this.attr('href', path_591 + $this.attr('href'));
   });
-  var $ul = $('<ul>');
+  var $ul = $('<ul class="house_ul">');
   console.log($data)
   $data.each(function(){
     var $this = $(this);
@@ -28,16 +28,18 @@ $.get(searchPath, function(response){
     var $li = $('<li class="house_li">');
     $li.append($('<div>').html($this.find('.left').html()));
     $li.append($('<div>').html(obj.title)); //標題
-    $li.append($('<div>').html(obj.address)); //地址
-    $li.append($('<div>').html(obj.floor)); //樓層
-    $li.append($('<div>').html(obj.updatedAt)); 
     $li.append($('<div>').html(
-      '<span>' + obj.space + '</span>' +    //坪數
-      '<span>' + obj.price + '</span>' +  //價格
-      '<span>' + obj.peopleNum + '</span>'         //昨日瀏覽       
+      '<span>' + obj.address + '</span>' +
+      '<span>' + obj.floor + '</span>'    //樓層
+    ));
+    $li.append($('<div>').html(
+      '<span> ' + obj.space + ' </span>' +    //坪數
+      '<span> ' + obj.price + ' </span>' +  //價格
+      '<span> 昨日' + obj.peopleNum + '瀏覽 </span>' +          //昨日瀏覽
+      '<span> ' + obj.updatedAt + ' </span>'         //N小時內更新
     ));
     $ul.append($li);
   });
-  $('#container .body_591').append($ul);
+  $('#container .body_591').text('').append($ul);
 });
 
