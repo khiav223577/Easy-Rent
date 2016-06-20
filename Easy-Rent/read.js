@@ -14,6 +14,7 @@ $.get(searchPath, function(response){
   console.log($data)
   $data.each(function(){
     var $this = $(this);
+    if ($this.find('.shInfo').length == 0) return;
     var obj = {
       title: $this.find('.right > p:nth-child(1)').html(),
       address: $this.find('.right > p:nth-child(2)').html(),
@@ -24,7 +25,7 @@ $.get(searchPath, function(response){
       price: $this.find('.price strong').text(), //價格
       peopleNum: $this.find('.pattern').text() //昨日瀏覽       
     };
-    var $li = $('<li>');
+    var $li = $('<li class="house_li">');
     $li.append($('<div>').html($this.find('.left').html()));
     $li.append($('<div>').html(obj.title)); //標題
     $li.append($('<div>').html(obj.address)); //地址
