@@ -14,15 +14,27 @@ $.get(searchPath, function(response){
   console.log($data)
   $data.each(function(){
     var $this = $(this);
+    var obj = {
+      title: $this.find('.right > p:nth-child(1)').html(),
+      address: $this.find('.right > p:nth-child(2)').html(),
+      floor: $this.find('.right > p:nth-child(3)').html(),
+      updatedAt: $this.find('.right > p:nth-child(4)').text().split(' ')[0], //N小時內更新 X先生/小姐
+      landlord: $this.find('.right > p:nth-child(4)').text().split(' ')[1],  //N小時內更新 X先生/小姐
+      space: $this.find('.rentByArea').text(), //坪數
+      price: $this.find('.price strong').text(), //價格
+      peopleNum: $this.find('.pattern').text() //昨日瀏覽       
+    };
     var $li = $('<li>');
-    $li.append($this.find('.left').html());
-    $li.append($('<div>').html($this.find('.right > p:nth-child(1)').html())); //標題
-    $li.append($('<div>').html($this.find('.right > p:nth-child(2)').html())); //地址
-    $li.append($('<div>').html($this.find('.right > p:nth-child(3)').html())); //樓層
-    $li.append($('<div>').html($this.find('.right > p:nth-child(4)').html())); //N小時內更新 X先生/小姐
-    $li.append($('<div>').html($this.find('.rentByArea').html()));      //坪數
-    $li.append($('<div>').html($this.find('.price').html()));                  //價格
-    $li.append($('<div>').html($this.find('.pattern').html()));                //昨日瀏覽
+    $li.append($('<div>').html($this.find('.left').html()));
+    $li.append($('<div>').html(obj.title)); //標題
+    $li.append($('<div>').html(obj.address)); //地址
+    $li.append($('<div>').html(obj.floor)); //樓層
+    $li.append($('<div>').html(obj.updatedAt)); 
+    $li.append($('<div>').html(
+      '<span>' + obj.space + '</span>' +    //坪數
+      '<span>' + obj.price + '</span>' +  //價格
+      '<span>' + obj.peopleNum + '</span>'         //昨日瀏覽       
+    ));
     $ul.append($li);
   });
   $('#container .body_591').append($ul);
