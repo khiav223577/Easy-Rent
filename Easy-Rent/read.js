@@ -26,19 +26,20 @@ $.get(searchPath, function(response){
       peopleNum: $this.find('.pattern').text() //昨日瀏覽       
     };
     var $li = $('<li class="house_li">');
-    $li.append($('<div>').html($this.find('.left').html()));
-    $li.append($('<div>').html(obj.title)); //標題
-    $li.append($('<div>').html(
+    var $left = $('<div class="left">').html($this.find('.left').html());
+    var $right = $('<div class="right">');
+    $right.append($('<div>').html(obj.title)); //標題
+    $right.append($('<div>').html(
       '<span>' + obj.address + '</span>' +
       '<span>' + obj.floor + '</span>'    //樓層
     ));
-    $li.append($('<div>').html(
+    $right.append($('<div>').html(
       '<span> ' + obj.space + ' </span>' +    //坪數
       '<span> ' + obj.price + ' </span>' +  //價格
       '<span> 昨日' + obj.peopleNum + '瀏覽 </span>' +          //昨日瀏覽
       '<span> ' + obj.updatedAt + ' </span>'         //N小時內更新
     ));
-    $ul.append($li);
+    $ul.append($li.append($left).append($right));
   });
   $('#container .body_591').text('').append($ul);
 });
