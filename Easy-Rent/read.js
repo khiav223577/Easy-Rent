@@ -5,11 +5,11 @@ var searchPath = path_591 + 'index.php?module=search&action=rslist&is_new_list=1
 $.get(searchPath, function(response){
 	console.log('Get data from 591');
 	response = JSON.parse(response);
-	console.log(response)
-	$('#container .body_591').html(response.main);
-	$('#container .body_591 a').each(function(){
+	var $data = $(response.main);
+	$data.find('a').each(function(){
 		var $this = $(this);
-		$this.attr('src', path_591 + $this.attr('src'));
+		$this.attr('href', path_591 + $this.attr('href'));
 	});
+	$('#container .body_591').append($data);
 });
 
