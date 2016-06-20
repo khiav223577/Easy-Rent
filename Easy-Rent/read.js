@@ -7,7 +7,7 @@ $.get(searchPath, function(response){
 	response = JSON.parse(response);
 	console.log(response)
 	$('#container .body_591').html(response.main);
-	$('#container .body_591 > a').each(function(){
+	$('#container .body_591 a').each(function(){
 		var $this = $(this);
 		$this.attr('src', path_591 + $this.attr('src'));
 	});
