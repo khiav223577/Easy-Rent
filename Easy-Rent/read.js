@@ -30,12 +30,16 @@ $.get(searchPath, function(response){
     var $right = $('<div class="right">');
     $right.append($('<div>').html(obj.title)); //標題
     $right.append($('<div>').html(
-      '<span>' + obj.address + '</span>' +
+      '<span>' + obj.address + '</span>'
+    ));
+    $right.append($('<div>').html(
       '<span>' + obj.floor + '</span>'    //樓層
     ));
     $right.append($('<div>').html(
-      '<span> ' + obj.space + ' </span>' +    //坪數
-      '<span> ' + obj.price + ' </span>' +  //價格
+      '<span class="space"> ' + obj.space + ' </span>' +    //坪數
+      '<span class="price"> ' + obj.price + ' </span>'   //價格
+    ));
+    $right.append($('<div class="last_view">').html(
       '<span> 昨日' + obj.peopleNum + '瀏覽 </span>' +          //昨日瀏覽
       '<span> ' + obj.updatedAt + ' </span>'         //N小時內更新
     ));
