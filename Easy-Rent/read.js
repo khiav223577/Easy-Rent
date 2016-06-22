@@ -21,6 +21,11 @@ function getData(){
     console.log('Get data from 591');
     response = JSON.parse(response);
     var $data = $(response.main);
+    $data.find('img').each(function(){
+      var $this = $(this);
+      var src = $this.attr('src');
+      if (src[0] == '.') $this.attr('src', path_591 + src.substring(1));
+    });
     $data.find('a').each(function(){
       var $this = $(this);
       $this.attr('href', path_591 + $this.attr('href'));
