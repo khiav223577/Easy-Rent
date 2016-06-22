@@ -6,7 +6,10 @@ var searchPath = path_591 + 'index.php?module=search&action=rslist&is_new_list=1
 $('#container .body_591').text('loading...');
 function createObjFromRawData($this){
   if ($this.find('.shInfo').length == 0) return;
+  var id = $this.find('.left a').attr('href').match("https://rent.591.com.tw/rent-detail-([0-9]+).html")[1];
+  if (id == undefined) alert('unknow url: ' + $this.find('.left a').attr('href'));
   return {
+    id: id,
     left: $this.find('.left').html(),
     title: $this.find('.right > p:nth-child(1)').html(),
     address: $this.find('.right > p:nth-child(2)').html(),
@@ -18,26 +21,46 @@ function createObjFromRawData($this){
     peopleNum: $this.find('.pattern').text() //昨日瀏覽       
   };
 }
+function setUserData(key, data){
+  var hash = {};
+  hash[key] = data;
+  chrome.storage.local.set(hash);
+}
+function getUserData(key, callback){
+  chrome.storage.local.get(key, function(result){
+     callback(result[key]);
+  });
+}
 function createHouseFromObj(obj){
-  var $li = $('<li class="house_li">');
-  var $left = $('<div class="left">').html(obj.left);
-  var $right = $('<div class="right">');
-  $right.append($('<div>').html(obj.title)); //標題
-  $right.append($('<div>').html(
-    '<span>' + obj.address + '</span>'
-  ));
-  $right.append($('<div>').html(
-    '<span>' + obj.floor + '</span>'    //樓層
-  ));
-  $right.append($('<div>').html(
-    '<span class="space"> ' + obj.space + ' </span>' +    //坪數
-    '<span class="price"> ' + obj.price + ' </span>'   //價格
-  ));
-  $right.append($('<div class="last_view">').html(
-    '<span> 昨日' + obj.peopleNum + '瀏覽 </span>' +          //昨日瀏覽
-    '<span> ' + obj.updatedAt + ' </span>'         //N小時內更新
-  ));
-  return $li.append($left).append($right);
+  console.log('----------------------------');
+  console.log(obj);
+  var $li = $('<li class="house_li">').text('載入中');
+  getUserData(obj.id, function(data){
+    console.log(data)
+    var $left = $('<div class="left">').html(obj.left);
+    var $right = $('<div class="right">');
+    $right.append($('<div>').html(obj.title)); //標題
+    $right.append($('<div>').html(
+      '<span>' + obj.address + '</span>'
+    ));
+    $right.append($('<div>').html(
+      '<span>' + obj.floor + '</span>'    //樓層
+    ));
+    $right.append($('<div>').html(
+      '<span class="space"> ' + obj.space + ' </span>' +    //坪數
+      '<span class="price"> ' + obj.price + ' </span>'   //價格
+    ));
+    $right.append($('<div class="last_view">').html(
+      '<span> 昨日' + obj.peopleNum + '瀏覽 </span>' +          //昨日瀏覽
+      '<span> ' + obj.updatedAt + ' </span>'         //N小時內更新
+    ));
+    $right.append($('<button>').text('搬移').click(function(){
+      var input = prompt();
+      setUserData(obj.id, input);
+    }));
+    $li.text('').append($left).append($right);
+  });
+  return $li;
 }
 $.get(searchPath, function(response){
   console.log('Get data from 591');
