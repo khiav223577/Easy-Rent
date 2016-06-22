@@ -31,22 +31,28 @@ function getUserData(key, callback){
      callback(result[key]);
   });
 }
+var currentCategory;
 function changeToCategory($tab, category){
+  if (category == undefined) category = 'Default'
+  currentCategory = category;
   $('#container > .tabs > *').removeClass('active');
-  $tab.addClass('active');
+  $('#container > .tabs > [data-category="' + category.replace(/[\""]/g, '\\"') + '"]').addClass('active');
   $('.house_li').hide();
   $('.house_li[data-category="' + category.replace(/[\""]/g, '\\"') + '"]').show();
 }
 function updateHouseCategory($li, category){
+  if (category == undefined) category = 'Default'
   var $tabs = $('#container > .tabs');
   $tab = $tabs.find('[data-category="' + category.replace(/[\""]/g, '\\"') + '"]');
-  $li.attr('data-category', category);
   if ($tab.length == 0){
     $tab = $('<div class="btn btn-default">').attr('data-category', category).text(category).click(function(){
-      changeToCategory($(this), category);
+      console.log('change to category')
+      changeToCategory(category);
     });
     $tabs.append($tab);
+    if (currentCategory == undefined) changeToCategory(category);
   }
+  $li.attr('data-category', category).toggle(currentCategory == category);
 }
 function createHouseFromObj(obj){
   console.log('----------------------------');
@@ -72,11 +78,11 @@ function createHouseFromObj(obj){
       '<span> ' + obj.updatedAt + ' </span>'         //N小時內更新
     ));
     $right.append($('<button>').text('搬移').click(function(){
-      var input = prompt();
+      var input = prompt('請選擇要搬移到的位置');
       updateHouseCategory($li, input);
       setUserData(obj.id, input);
     }));
-    updateHouseCategory($li, data || 'Default');
+    updateHouseCategory($li, data);
     $li.text('').append($left).append($right);
   });
   return $li;
