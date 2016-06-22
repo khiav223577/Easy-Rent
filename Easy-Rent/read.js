@@ -2,8 +2,33 @@ var path_591 = 'https://rent.591.com.tw/'
 console.log('Start loading data from 591')
 //var searchPath = path_591 + '/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&listview=img&option=cold,hotwater,bed,wardrobe&kind=2&rentprice=3&order=area&orderType=desc&other=cook';
 // var searchPath = path_591 + 'index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&rentprice=3&area=1&kind=2&option=cold,icebox,hotwater,washer,bed,wardrobe&other=balcony_1,cook&order=area&orderType=desc';
-var searchPath = path_591 + 'index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&listview=img&order=area&orderType=desc';
+var row = 0;
+var searchPath = path_591 + 'index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&listview=img&order=area&orderType=desc&firstRow=';
 $('#container .body_591').text('loading...');
+$('#container .tabs .btn-success').click(function(){
+  row += 20;
+  getData();
+});
+function getData(){
+  $.get(searchPath + String(row), function(response){
+    console.log('Get data from 591');
+    response = JSON.parse(response);
+    var $data = $(response.main);
+    $data.find('a').each(function(){
+      var $this = $(this);
+      $this.attr('href', path_591 + $this.attr('href'));
+    });
+    var $ul = $('<ul class="house_ul">');
+    console.log($data)
+    $data.each(function(){
+      var obj = createObjFromRawData($(this));
+      if (obj == undefined) return;
+      $ul.append(createHouseFromObj(obj));
+    });
+    $('#container .body_591').text('').append($ul);
+  });
+}
+getData();
 function createObjFromRawData($this){
   if ($this.find('.shInfo').length == 0) return;
   var id = $this.find('.left a').attr('href').match("https://rent.591.com.tw/rent-detail-([0-9]+).html")[1];
@@ -88,21 +113,5 @@ function createHouseFromObj(obj){
   });
   return $li;
 }
-$.get(searchPath, function(response){
-  console.log('Get data from 591');
-  response = JSON.parse(response);
-  var $data = $(response.main);
-  $data.find('a').each(function(){
-    var $this = $(this);
-    $this.attr('href', path_591 + $this.attr('href'));
-  });
-  var $ul = $('<ul class="house_ul">');
-  console.log($data)
-  $data.each(function(){
-    var obj = createObjFromRawData($(this));
-    if (obj == undefined) return;
-    $ul.append(createHouseFromObj(obj));
-  });
-  $('#container .body_591').text('').append($ul);
-});
+
 
