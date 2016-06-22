@@ -42,7 +42,7 @@ function updateHouseCategory($li, category){
   $tab = $tabs.find('[data-category="' + category.replace(/[\""]/g, '\\"') + '"]');
   $li.attr('data-category', category);
   if ($tab.length == 0){
-    $tab = $('<div class="btn btn-default">').attr('data-category', category).text(category || '預設').click(function(){
+    $tab = $('<div class="btn btn-default">').attr('data-category', category).text(category).click(function(){
       changeToCategory($(this), category);
     });
     $tabs.append($tab);
@@ -76,7 +76,7 @@ function createHouseFromObj(obj){
       updateHouseCategory($li, input);
       setUserData(obj.id, input);
     }));
-    updateHouseCategory($li, data);
+    updateHouseCategory($li, data || 'Default');
     $li.text('').append($left).append($right);
   });
   return $li;
