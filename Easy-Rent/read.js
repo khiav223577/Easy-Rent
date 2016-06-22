@@ -6,13 +6,18 @@ var row = 0;
 var searchPath = path_591 + 'index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&listview=img&order=area&orderType=desc&firstRow=';
 $('#container .body_591').text('loading...');
 $('#container .tabs .btn-success').click(function(){
+  if (loadingFlag) return;
   row += 20;
   getData();
 });
-var loadedObj = {};
+var loadingFlag = false, loadedObj = {};
 var $ul;
 function getData(){
+  $('#container .tabs .btn-success').addClass('disabled').text('Loading...');
+  loadingFlag = true;
   $.get(searchPath + String(row), function(response){
+    loadingFlag = false;
+    $('#container .tabs .btn-success').removeClass('disabled').text('Load more');
     console.log('Get data from 591');
     response = JSON.parse(response);
     var $data = $(response.main);
