@@ -73,26 +73,40 @@ function getUserData(key, callback){
   });
 }
 var currentCategory;
+function findTab(category){
+  return $('#container > .tabs > [data-category="' + category.replace(/[\""]/g, '\\"') + '"]');
+}
+function findLi(category){
+ return $('.house_li[data-category="' + category.replace(/[\""]/g, '\\"') + '"]'); 
+}
 function changeToCategory(category){
-  if (category == undefined) category = 'Default';
+  if (!category) category = 'Default';
   console.log('change to category: ' + category);
   currentCategory = category;
   $('#container > .tabs > *').removeClass('active');
-  $('#container > .tabs > [data-category="' + category.replace(/[\""]/g, '\\"') + '"]').addClass('active');
+  findTab(category).addClass('active');
   $('.house_li').hide();
-  $('.house_li[data-category="' + category.replace(/[\""]/g, '\\"') + '"]').show();
+  findLi(category).show();
 }
+var categoryItenCount = {};
 function updateHouseCategory($li, category){
-  if (category == undefined) category = 'Default'
+  if (!category) category = 'Default'
+  var originCategory = $li.attr('data-category');
+  if (originCategory == category) return;
+  if (categoryItenCount[category] == undefined) categoryItenCount[category] = 0;
+  if (originCategory != undefined) categoryItenCount[originCategory] -= 1;
+  categoryItenCount[category] += 1;
   var $tabs = $('#container > .tabs');
-  $tab = $tabs.find('[data-category="' + category.replace(/[\""]/g, '\\"') + '"]');
+  $tab = findTab(category);
   if ($tab.length == 0){
-    $tab = $('<div class="btn btn-default">').attr('data-category', category).text(category).click(function(){
+    $tab = $('<div class="btn btn-default">').attr('data-category', category).click(function(){
       changeToCategory(category);
     });
     $tabs.append($tab);
     if (currentCategory == undefined) changeToCategory(category);
   }
+  if (originCategory != undefined) findTab(originCategory).text(originCategory + ' (' + String(categoryItenCount[originCategory]) + ')');
+  $tab.text(category + ' (' + String(categoryItenCount[category]) + ')');
   $li.attr('data-category', category).toggle(currentCategory == category);
 }
 function createHouseFromObj(obj){
