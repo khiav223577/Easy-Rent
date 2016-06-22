@@ -31,6 +31,23 @@ function getUserData(key, callback){
      callback(result[key]);
   });
 }
+function changeToCategory($tab, category){
+  $('#container > .tabs > *').removeClass('active');
+  $tab.addClass('active');
+  $('.house_li').hide();
+  $('.house_li[data-category="' + category.replace(/[\""]/g, '\\"') + '"]').show();
+}
+function updateHouseCategory($li, category){
+  var $tabs = $('#container > .tabs');
+  $tab = $tabs.find('[data-category="' + category.replace(/[\""]/g, '\\"') + '"]');
+  $li.attr('data-category', category);
+  if ($tab.length == 0){
+    $tab = $('<div class="btn btn-default">').attr('data-category', category).text(category || '預設').click(function(){
+      changeToCategory($(this), category);
+    });
+    $tabs.append($tab);
+  }
+}
 function createHouseFromObj(obj){
   console.log('----------------------------');
   console.log(obj);
@@ -56,8 +73,10 @@ function createHouseFromObj(obj){
     ));
     $right.append($('<button>').text('搬移').click(function(){
       var input = prompt();
+      updateHouseCategory($li, input);
       setUserData(obj.id, input);
     }));
+    updateHouseCategory($li, data);
     $li.text('').append($left).append($right);
   });
   return $li;
