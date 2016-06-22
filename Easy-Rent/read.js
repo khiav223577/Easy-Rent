@@ -24,16 +24,17 @@ function createObjFromRawData($this){
 function setUserData(key, data){
   var hash = {};
   hash[key] = data;
-  chrome.storage.local.set(hash);
+  chrome.storage.sync.set(hash);
 }
 function getUserData(key, callback){
-  chrome.storage.local.get(key, function(result){
+  chrome.storage.sync.get(key, function(result){
      callback(result[key]);
   });
 }
 var currentCategory;
-function changeToCategory($tab, category){
-  if (category == undefined) category = 'Default'
+function changeToCategory(category){
+  if (category == undefined) category = 'Default';
+  console.log('change to category: ' + category);
   currentCategory = category;
   $('#container > .tabs > *').removeClass('active');
   $('#container > .tabs > [data-category="' + category.replace(/[\""]/g, '\\"') + '"]').addClass('active');
@@ -46,7 +47,6 @@ function updateHouseCategory($li, category){
   $tab = $tabs.find('[data-category="' + category.replace(/[\""]/g, '\\"') + '"]');
   if ($tab.length == 0){
     $tab = $('<div class="btn btn-default">').attr('data-category', category).text(category).click(function(){
-      console.log('change to category')
       changeToCategory(category);
     });
     $tabs.append($tab);

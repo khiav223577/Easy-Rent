@@ -3,9 +3,10 @@
 
   "name": "rent house",
   "description": "help you rent hourse",
-  "version": "0.0.1",
+  "version": "0.0.2",
 
   "permissions": [
+    "storage",
     "http://khiav223577.github.io/Easy-Rent/",
     "https://khiav223577.github.io/Easy-Rent/",
     "https://rent.591.com.tw/*"
