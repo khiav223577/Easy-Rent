@@ -58,6 +58,7 @@ function createHouseFromObj(obj){
   console.log('----------------------------');
   console.log(obj);
   var $li = $('<li class="house_li">').text('載入中');
+  updateHouseCategory($li);
   getUserData(obj.id, function(data){
     console.log(data)
     var $left = $('<div class="left">').html(obj.left);
