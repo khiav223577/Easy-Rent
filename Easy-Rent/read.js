@@ -9,6 +9,8 @@ $('#container .tabs .btn-success').click(function(){
   row += 20;
   getData();
 });
+var loadedObj = {};
+var $ul;
 function getData(){
   $.get(searchPath + String(row), function(response){
     console.log('Get data from 591');
@@ -18,14 +20,18 @@ function getData(){
       var $this = $(this);
       $this.attr('href', path_591 + $this.attr('href'));
     });
-    var $ul = $('<ul class="house_ul">');
+    if ($ul == undefined){
+      $ul = $('<ul class="house_ul">');
+      $('#container .body_591').text('').append($ul);
+    }
     console.log($data)
     $data.each(function(){
       var obj = createObjFromRawData($(this));
       if (obj == undefined) return;
+      if (loadedObj[obj.id]) return;
+      loadedObj[obj.id] = true;
       $ul.append(createHouseFromObj(obj));
     });
-    $('#container .body_591').text('').append($ul);
   });
 }
 getData();
