@@ -1,5 +1,27 @@
 var path_591 = 'https://rent.591.com.tw/'
 console.log('Start loading data from 591')
+
+var kindsMapping = ['不限', '整層住家', '獨立套房', '分租套房', '雅房', '車位', '其它']
+
+function genSearchPath(kind, row){
+  var params = {
+    module: 'search',
+    action: 'rslist',
+    is_new_list: 1,
+    type: 1,
+    searchtype: 1,
+    region: 1,
+    kind: kind,
+    rentprice: 3,
+    listview: 'img',
+    order: 'area',
+    orderType: 'desc',
+    other: 'cook',
+    firstRow: row,
+  }
+  return path_591 + 'index.php?' + Object.keys(params).map(k => k + '=' + params[k]).join('&');;
+}
+
 //var searchPath = path_591 + '/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&listview=img&option=cold,hotwater,bed,wardrobe&kind=2&rentprice=3&order=area&orderType=desc&other=cook';
 // var searchPath = path_591 + 'index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&rentprice=3&area=1&kind=2&option=cold,icebox,hotwater,washer,bed,wardrobe&other=balcony_1,cook&order=area&orderType=desc';
 var row = 0;
@@ -15,7 +37,7 @@ var $ul;
 function getData(){
   $('#container .tabs .btn-success').addClass('disabled').text('Loading...');
   loadingFlag = true;
-  $.get(searchPath + String(row), function(response){
+  $.get(genSearchPath(1, row), function(response){
     loadingFlag = false;
     $('#container .tabs .btn-success').removeClass('disabled').text('Load more');
     console.log('Get data from 591');
@@ -59,7 +81,7 @@ function createObjFromRawData($this){
     landlord: $this.find('.right > p:nth-child(4)').text().split(' ')[1],  //N小時內更新 X先生/小姐
     space: $this.find('.rentByArea').text(), //坪數
     price: $this.find('.price strong').text(), //價格
-    peopleNum: $this.find('.pattern').text() //昨日瀏覽       
+    peopleNum: $this.find('.pattern').text() //昨日瀏覽
   };
 }
 function setUserData(key, data){
@@ -77,7 +99,7 @@ function findTab(category){
   return $('#container > .tabs > [data-category="' + category.replace(/[\""]/g, '\\"') + '"]');
 }
 function findLi(category){
- return $('.house_li[data-category="' + category.replace(/[\""]/g, '\\"') + '"]'); 
+  return $('.house_li[data-category="' + category.replace(/[\""]/g, '\\"') + '"]');
 }
 function changeToCategory(category){
   if (!category) category = 'Default';
