@@ -26,7 +26,7 @@ function genSearchPath(kind, row){
 
 var row = 0;
 $('#container .body_591').text('loading...');
-$('#container .tabs .btn-success').click(function(){
+$('#container .load_more').click(function(){
   if (loadingFlag) return;
   row += 20;
   getData();
