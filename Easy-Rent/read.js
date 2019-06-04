@@ -18,10 +18,12 @@ function genSearchPath(kind, row){
     orderType: 'desc',
     other: 'cook',
     firstRow: row,
+    pattern: 1,
   }
-  // var searchPath = path_591 + '/?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&listview=img&option=cold,hotwater,bed,wardrobe&kind=2&rentprice=3&order=area&orderType=desc&other=cook';
-  // var searchPath = path_591 + '?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&rentprice=3&area=1&kind=2&option=cold,icebox,hotwater,washer,bed,wardrobe&other=balcony_1,cook&order=area&orderType=desc';
-  return path_591 + '?' + Object.keys(params).map(k => k + '=' + params[k]).join('&');;
+  // var searchPath = path_591 + '/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&listview=img&option=cold,hotwater,bed,wardrobe&kind=2&rentprice=3&order=area&orderType=desc&other=cook';
+  // var searchPath = path_591 + 'index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&rentprice=3&area=1&kind=2&option=cold,icebox,hotwater,washer,bed,wardrobe&other=balcony_1,cook&order=area&orderType=desc';
+  // var searchPath = path_591 + '/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=1&module=search&action=rslist&is_new_list=1&type=1&searchtype=1&listview=img&order=area&orderType=desc&firstRow=0&region=1&rentprice=3&other=cook&pattern=1';
+  return path_591 + '/home/search/rsList?' + Object.keys(params).map(k => k + '=' + params[k]).join('&');;
 }
 
 var row = 0;
